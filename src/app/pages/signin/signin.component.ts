@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { AuthService } from '../../core/auth.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {AuthService} from '../../core/auth.service';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-signin',
@@ -11,13 +11,13 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class SigninComponent implements OnInit {
   userForm: FormGroup;
   formErrors = {
-    email: '',
+    userName: '',
     password: ''
   };
   validationMessages = {
-    email: {
-      required: '请输入您的邮箱',
-      email: '请输入正确的邮箱'
+    userName: {
+      required: '请输入您的用户名',
+      email: '请输入正确的用户名'
     },
     password: {
       required: '请输入您的密码',
@@ -27,11 +27,10 @@ export class SigninComponent implements OnInit {
     }
   };
 
-  constructor(
-    private router: Router,
-    private fb: FormBuilder,
-    private auth: AuthService
-  ) {}
+  constructor(private router: Router,
+              private fb: FormBuilder,
+              private authService: AuthService) {
+  }
 
   ngOnInit() {
     this.buildForm();
@@ -39,11 +38,11 @@ export class SigninComponent implements OnInit {
 
   buildForm() {
     this.userForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
+      userName: ['', [Validators.required]],
       password: [
         '',
         [
-          Validators.pattern('^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$'),
+          // Validators.pattern('^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$'),
           Validators.minLength(6),
           Validators.maxLength(25)
         ]
@@ -76,25 +75,29 @@ export class SigninComponent implements OnInit {
   }
 
   signInWithGoogle() {
-    this.auth.googleLogin().then(() => this.afterSignIn());
+    this.authService.googleLogin().then(() => this.afterSignIn());
   }
 
   signInWithGithub() {
-    this.auth.githubLogin().then(() => this.afterSignIn());
+    this.authService.githubLogin().then(() => this.afterSignIn());
   }
 
-  signInWithEmail() {
-    this.auth
-      .emailLogin(this.userForm.value['email'], this.userForm.value['password'])
-      .catch(error => console.log('邮箱登录出错：', error));
+  loginWithPassword() {
+    this.authService
+      .passwordLogin(this.userForm.value['userName'], this.userForm.value['password']);
+    // .catch(error => console.log('邮箱登录出错：', error));
+    // this.authService
+    //   .passwordLogin(this.userForm.value['userName'], this.userForm.value['password']);
+    // .catch(error => console.log('邮箱登录出错：', error));
   }
 
   signInAnonymously() {
-    this.auth.anonymousLogin().then(() => this.afterSignIn());
+    this.authService.anonymousLogin().then(() => this.afterSignIn());
   }
 
   login() {
-    this.signInWithEmail();
+    console.log('clicked');
+    this.loginWithPassword();
   }
 
   private afterSignIn() {

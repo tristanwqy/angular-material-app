@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
-import { AngularFireDatabase, AngularFireObject } from '@angular/fire/database';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { auth } from 'firebase';
+import {Injectable} from '@angular/core';
+import {AngularFireDatabase, AngularFireObject} from '@angular/fire/database';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {auth} from 'firebase';
+import {HttpService} from './http.service';
 
 @Injectable()
 export class AuthService {
@@ -40,10 +41,9 @@ export class AuthService {
     return this.authenticated ? this.authState.anonymous : false;
   }
 
-  constructor(
-    private afAuth: AngularFireAuth,
-    private db: AngularFireDatabase
-  ) {
+  constructor(private afAuth: AngularFireAuth,
+              private db: AngularFireDatabase,
+              private httpService: HttpService) {
     this.afAuth.authState.subscribe(auth => {
       this.authState = auth;
     });
@@ -92,13 +92,12 @@ export class AuthService {
       .catch(error => console.log(error));
   }
 
-  emailLogin(email: string, password: string) {
-    return this.afAuth.auth
-      .signInWithEmailAndPassword(email, password)
-      .then(user => {
-        this.authState = user;
-        this.updateUserData();
-      });
+  passwordLogin(userName: string, password: string) {
+    console.log(userName, password);
+    return this.httpService
+      .post('http://localhost:8080/login', {userName: userName, password: password})
+      .subscribe(result => console.log("im here"));
+    // .then(user => console.log(user));
   }
 
   /**
