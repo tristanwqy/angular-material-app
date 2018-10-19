@@ -3,19 +3,24 @@ import {AngularFireDatabase, AngularFireObject} from '@angular/fire/database';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {auth} from 'firebase';
 import {HttpService} from './http.service';
+import {XkoolUser} from '../model/xkool-user.model';
 
 @Injectable()
 export class AuthService {
   authState: any = null; // 用户信息
   userRef: AngularFireObject<any>;
+  currentUser: XkoolUser;
 
   get authenticated() {
     return this.authState !== null;
   }
 
-  // 当前用户
-  get currentUser() {
-    return this.authenticated ? this.authState : null;
+  getCurrentUser() {
+    return this.currentUser;
+  }
+
+  setCurrentUser(user: XkoolUser) {
+    this.currentUser = user;
   }
 
   get currentUserObservable() {
@@ -95,9 +100,7 @@ export class AuthService {
   passwordLogin(userName: string, password: string) {
     console.log(userName, password);
     return this.httpService
-      .post('http://localhost:8080/login', {userName: userName, password: password})
-      .subscribe(result => console.log("im here"));
-    // .then(user => console.log(user));
+      .post('http://localhost:8080/login', {userName: userName, password: password});
   }
 
   /**

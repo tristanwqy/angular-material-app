@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthService} from '../../core/auth.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {XkoolUser} from "../../model/xkool-user.model";
 
 @Component({
   selector: 'app-signin',
@@ -84,7 +85,15 @@ export class SigninComponent implements OnInit {
 
   loginWithPassword() {
     this.authService
-      .passwordLogin(this.userForm.value['userName'], this.userForm.value['password']);
+      .passwordLogin(this.userForm.value['userName'], this.userForm.value['password'])
+      .subscribe((user: XkoolUser) => {
+        if (user) {
+          this.authService.setCurrentUser(user);
+          this.router.navigate(['/home']);
+        } else {
+          console.log('login failed');
+        }
+      });
     // .catch(error => console.log('邮箱登录出错：', error));
     // this.authService
     //   .passwordLogin(this.userForm.value['userName'], this.userForm.value['password']);
@@ -96,7 +105,6 @@ export class SigninComponent implements OnInit {
   }
 
   login() {
-    console.log('clicked');
     this.loginWithPassword();
   }
 
