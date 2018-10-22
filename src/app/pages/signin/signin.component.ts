@@ -89,7 +89,7 @@ export class SigninComponent implements OnInit {
       .subscribe((user: XkoolUser) => {
         if (user) {
           this.authService.setCurrentUser(user);
-          this.router.navigate(['/home']);
+          this.router.navigate(['/pages/user']);
         } else {
           console.log('login failed');
         }

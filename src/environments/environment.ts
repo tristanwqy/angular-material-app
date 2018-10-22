@@ -5,7 +5,7 @@
 
 export const environment = {
   production: false,
-  serverUrl: 'http://localhost:8080',
+  serverUrl: 'http://localhost:8080/api',
   firebase: {
     apiKey: 'AIzaSyAGcYsQtc9xqqEKstnoO3WasuZxJmKTwNc',
     authDomain: 'angular-material-app-stbui.firebaseapp.com',
@@ -14,6 +14,7 @@ export const environment = {
     storageBucket: 'angular-material-app-stbui.appspot.com',
     messagingSenderId: '974351057659'
   },
+
   navigationApi: '/assets/data/navigation',
   todoApi: '/assets/data/todo/list.json',
   mailApi: '/assets/data/mail/list.json',

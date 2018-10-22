@@ -4,4 +4,6 @@ export class XkoolUser {
   emailAddress: string;
   name: string;
   nickname: string;
+  createTimestamp: number;
+  updateTimestamp: number;
 }

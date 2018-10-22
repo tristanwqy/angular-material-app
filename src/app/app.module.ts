@@ -19,13 +19,14 @@ import { FireBaseComponentsModule } from './shared/firebase.module';
 
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import {MatDialogModule} from '@angular/material';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
     SignupComponent,
-    SigninComponent
+    SigninComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,6 +37,7 @@ import { environment } from '../environments/environment';
     AppRoutingModule,
     FireBaseComponentsModule,
     ReactiveFormsModule,
+    MatDialogModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production
     })

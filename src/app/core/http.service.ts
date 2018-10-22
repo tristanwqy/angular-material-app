@@ -8,7 +8,6 @@ import {Router} from '@angular/router';
 export class HttpService {
   constructor(private http: HttpClient,
               private router: Router) {
-
   }
 
   get(url: string, params?: {}): Observable<any> {
@@ -16,7 +15,7 @@ export class HttpService {
       .get(url, {
         withCredentials: true,
         params: params
-      });
+      }).pipe();
     // .catch((err: HttpErrorResponse) => {
     //   return Observable.throw(this.errorHandler(err));
     // });
@@ -25,12 +24,9 @@ export class HttpService {
   post(url: string, data: any): Observable<any> {
     console.log(url, data);
     return this.http
-      .post(url, data)
+      .post(url, data, {withCredentials: true})
       .pipe(
       );
-    // .catch(err => {
-    //   return Observable.throw(this.errorHandler(err));
-    // });
   }
 
   patch(url: string, data: any): Observable<any> {
@@ -48,9 +44,6 @@ export class HttpService {
       .delete(url, {
         withCredentials: true
       });
-    // .catch((err: HttpErrorResponse) => {
-    //   return Observable.throw(this.errorHandler(err));
-    // });
   }
 
   //

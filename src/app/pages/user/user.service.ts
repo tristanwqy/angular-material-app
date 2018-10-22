@@ -1,27 +1,24 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {BehaviorSubject} from 'rxjs';
+import {HttpService} from '../../core/http.service';
+import {UrlConstant} from '../../core/url.constant';
 
 @Injectable()
 export class UserService {
 
-  private apiUrl = '/assets/data/pages';
   private _userList$: BehaviorSubject<any>;
 
-  get userList$() {
-    return this._userList$.asObservable();
-  }
-
-
-  constructor(private _http: HttpClient) {
+  constructor(private httpService: HttpService) {
     this._userList$ = new BehaviorSubject<any>([]);
   }
 
-  getUserList() {
-    const url = `${this.apiUrl}/userList.json`;
-    return this._http.get(url).subscribe(res => {
-      this._userList$.next(res);
-    });
+  getAllUsers() {
+    return this.httpService.get(UrlConstant.USER_LIST);
+  }
+
+  deleteUser(userId) {
+    return this.httpService.delete(UrlConstant.USER(userId));
   }
 
 }

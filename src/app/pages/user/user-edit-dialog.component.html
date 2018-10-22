@@ -1,0 +1,23 @@
+<mat-card>
+  <mat-card-title>用户编辑</mat-card-title>
+  <mat-card-content>
+    <form #formContact="ngForm">
+      <mat-form-field class="display-block">
+        <input matInput placeholder="您的名字" name="name" [(ngModel)]="user.name" required>
+      </mat-form-field>
+      <mat-form-field class="display-block">
+        <input matInput placeholder="您的邮箱" name="email" [(ngModel)]="user.emailAddress" required>
+      </mat-form-field>
+      <mat-form-field class="display-block">
+        <input matInput placeholder="您的昵称" name="nickname" [(ngModel)]="user.nickname" required>
+      </mat-form-field>
+      <mat-form-field class="display-block">
+        <input matInput placeholder="您的手机" name="phoneNumber" [(ngModel)]="user.phoneNumber"
+               minlength="11" maxlength="11" required>
+      </mat-form-field>
+      <div>
+        <button mat-raised-button color="primary" type="submit" [disabled]="!formContact.valid" onclick="">提交</button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
